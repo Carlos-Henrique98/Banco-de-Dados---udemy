@@ -1,0 +1,53 @@
+CREATE DATABASE BibliotecaAula
+
+USE BibliotecaAula
+
+sp_helpdb BibliotecaAula
+
+--CONSTRAINTS
+--NOT NULL -SEM VALORES NULL
+--UNIQUE - IDENTIFICA DE FORMA UNICA CADA REGISTRO EM UMA TABELA 
+--PRIMARY KEY - PRIMARY KEY GARANTEM A UNICIDADE EM UMA COLUNA OU CONJUNTO DE COLUNAS
+--FOREIGN KEY - É UM CAMPO QUE APONTA PARA UMA CHAVE PRIMÁRIA EM OUTRA TABELA 
+--CHECK - É USADA PARA LIMITAR UMA FAIXA DE VALORES QUE PODEM SER COLOCADOS EM UMA COLUNA
+--DEFAULT - É USADA PARA INSERIR UM VALOR PADRAO EM UMA COLUNA
+--AUTO INCREMENT (IDENTITY) - o auto incremento permite que um número unico seja gerado quando
+--um novo registro é inserido em uma tabela
+
+CREATE TABLE T_Autores(
+	IdAutor INT PRIMARY KEY IDENTITY,
+	NomeAutor VARCHAR(200) NOT NULL,
+	SobrenomeAutor VARCHAR(200) NOT NULL,
+);
+
+CREATE TABLE T_Editoras(
+	IdEditora INT PRIMARY KEY IDENTITY,
+	NomeEditora VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE T_Livro(
+	IdLivro INT PRIMARY KEY IDENTITY(100,1),
+	NomeLivro VARCHAR(200) NOT NULL,
+	ISBN VARCHAR(30) NOT NULL UNIQUE,
+	DATAPublic DATETIME NOT NULL,
+	PrecoLivro MONEY NOT NULL,
+	IdEditora INT FOREIGN KEY REFERENCES T_Editoras(IdEditora),
+	IdAutor INT FOREIGN KEY REFERENCES T_Autores(IdAutor)
+
+);
+
+--Informa is indices, chaves, e campos, atributos tipos de atributos de uma tabela
+sp_help T_Livro
+sp_help T_Editoras
+sp_help T_Autores
+
+CREATE TABLE T_TesteIdentidade(
+	IdTeste SMALLINT PRIMARY KEY IDENTITY,
+	Valor SMALLINT NOT NULL
+);
+
+INSERT INTO T_TesteIdentidade (Valor) VALUES(10);
+INSERT INTO T_TesteIdentidade (Valor) VALUES(20);
+INSERT INTO T_TesteIdentidade (Valor) VALUES(30);
+
+SELECT * FROM T_TesteIdentidade;
